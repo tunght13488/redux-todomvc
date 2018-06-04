@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { clearCompleted, VisibilityFilters } from '../actions';
-import FilterLink from '../containers/FilterLink';
+import { NavLink } from 'react-router-dom';
+import { clearCompleted } from '../actions';
 
 const _Footer = ({todoCount, completedCount, onClearCompleted}) => {
   // This footer should hidden by default and shown when there are todos
@@ -13,13 +13,13 @@ const _Footer = ({todoCount, completedCount, onClearCompleted}) => {
       {/* Remove this if you don't implement routing */}
       <ul className="filters">
         <li>
-          <FilterLink filter={VisibilityFilters.SHOW_ALL}>All</FilterLink>
+          <NavLink exact to="/" activeClassName="selected">All</NavLink>
         </li>
         <li>
-          <FilterLink filter={VisibilityFilters.SHOW_ACTIVE}>Active</FilterLink>
+          <NavLink to="/active" activeClassName="selected">Active</NavLink>
         </li>
         <li>
-          <FilterLink filter={VisibilityFilters.SHOW_COMPLETED}>Completed</FilterLink>
+          <NavLink to="/completed" activeClassName="selected">Completed</NavLink>
         </li>
       </ul>
       {/* Hidden if no completed items are left ↓ */}
@@ -34,7 +34,7 @@ _Footer.propTypes = {
   onClearCompleted: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = ({todo: state}) => {
   return {
     todoCount: state.todos.length,
     completedCount: state.todos.filter(todo => todo.completed).length,
